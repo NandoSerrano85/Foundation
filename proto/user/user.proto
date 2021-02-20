@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package user;
+
+messege Empty {}
+
+messege User {
+    string uuid = 1;
+    string username = 2;
+    string password = 3;
+    string first_name = 4;
+    string last_name = 5;
+    string image = 6;
+    Address address = 7;
+}
+
+message Address {
+    string country = 1;
+    string state = 2;
+    string street_1 = 3;
+    string street_2 = 4;
+    int32 zip = 5;
+}
+
