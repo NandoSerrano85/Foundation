@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package user;
 
-messege Empty {}
+message Empty {}
 
-messege User {
+message UserStruct {
     string uuid = 1;
     string username = 2;
     string password = 3;
@@ -13,6 +13,13 @@ messege User {
     string image = 6;
     Address address = 7;
 }
+message UserResponse {
+    UserStruct user = 1;
+}
+
+message RemoveUserStruct {
+    string uuid = 1;
+}
 
 message Address {
     string country = 1;
@@ -20,5 +27,15 @@ message Address {
     string street_1 = 3;
     string street_2 = 4;
     int32 zip = 5;
+}
+
+message Comments {
+    
+}
+
+service User {
+    rpc ListAllUsers (Empty) returns (UserResponse) {}
+    rpc NewUser (UserStruct) returns (Empty) {}
+    rpc RemoveUser (RemoveUserStruct) returns (Empty) {}
 }
 
