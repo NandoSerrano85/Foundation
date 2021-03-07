@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	user "backend/proto/user"
+	user "github.com/NandoSerrano85/Foundation/api/user"
 
 	"google.golang.org/grpc"
 )
@@ -37,6 +37,7 @@ func main() {
 
 	fmt.Println("Listening...")
 	s := grpc.NewServer()
+	user.RegisterUserServiceServer(s, server{})
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

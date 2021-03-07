@@ -5,5 +5,5 @@
 In order to use changes made to proto files you need to recompile proto files
 
 ```
-protoc --go_out=plugin=grpc:. proto/user/user.proto
+protoc --proto_path=. --go_out=api/user --go_opt=paths=import ./proto/user/user.proto 
 ```

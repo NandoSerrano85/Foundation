@@ -34,7 +34,7 @@ message Comments {
 }
 
 service User {
-    rpc ListAllUsers (Empty) returns (UserResponse) {}
+    rpc ListAllUsers (Empty) returns (stream UserResponse) {}
     rpc NewUser (UserStruct) returns (Empty) {}
     rpc RemoveUser (RemoveUserStruct) returns (Empty) {}
 }
