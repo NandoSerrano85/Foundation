@@ -5,30 +5,36 @@ import (
 	"fmt"
 	"log"
 	"net"
-
-	user "github.com/NandoSerrano85/Foundation/api/user"
+	"sync"
 
 	"google.golang.org/grpc"
+
+	user "github.com/NandoSerrano85/Foundation/api/user"
 )
 
-type server struct{}
+type server struct {
+	user.UnimplementedUserServer
+	allUsers []*user.UserStruct
 
-func (s *server) ListAllUsers(ctx context.Context, request *user.Request) (*user.Response, error) {
-	fmt.Println(request)
-
-	result := "this is a test for all users"
-
-	return &user.Response{Result: result}, nil
+	mu sync.Mutex
 }
 
-func (s *server) NewUser(ctx context.Context, request *user.Request) (*user.Response, error) {
-	fmt.Println(request)
+func (s *server) ListAllUsers(empty *user.Empty, allUsers user.User_ListAllUsersServer) error {
+	fmt.Println(empty)
 
-	result := "this is a test for new users"
-
-	return &user.Response{Result: result}, nil
+	return nil
 }
 
+func (s *server) NewUser(ctx context.Context, request *user.UserStruct) (*user.Empty, error) {
+	log.Printf("Creating new user with name: %s", request.FirstName)
+
+	return &user.Empty{}, nil
+}
+
+func newServer() *server {
+	s := &server{}
+	return s
+}
 func main() {
 	lis, err := net.Listen("tcp", ":8080")
 	if err != nil {
@@ -37,7 +43,7 @@ func main() {
 
 	fmt.Println("Listening...")
 	s := grpc.NewServer()
-	user.RegisterUserServiceServer(s, server{})
+	user.RegisterUserServer(s, newServer())
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

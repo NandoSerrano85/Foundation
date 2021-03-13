@@ -10,8 +10,9 @@ message UserStruct {
     string password = 3;
     string first_name = 4;
     string last_name = 5;
-    string image = 6;
-    Address address = 7;
+    string image_url = 6;
+    bytes image_data = 7;
+    Address address = 8;
 }
 message UserResponse {
     UserStruct user = 1;
