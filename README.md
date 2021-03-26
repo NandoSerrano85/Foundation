@@ -5,5 +5,7 @@
 In order to use changes made to proto files you need to recompile proto files
 
 ```
-protoc --proto_path=. --go_out=api/user --go_opt=paths=import ./proto/user/user.proto 
+protoc --go_out=/Users/fserrano/Documents/Projects/Exprience_App/backend/api/user  \
+       --go-grpc_out=/Users/fserrano/Documents/Projects/Exprience_App/backend/api/user \
+       proto/user/user.proto
 ```

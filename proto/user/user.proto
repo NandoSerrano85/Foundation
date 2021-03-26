@@ -4,21 +4,28 @@ package user;
 
 message Empty {}
 
-message UserStruct {
+// User profile section
+
+message UserResponse {
     string uuid = 1;
     string username = 2;
-    string password = 3;
+    bytes password = 3;
     string first_name = 4;
     string last_name = 5;
-    string image_url = 6;
-    bytes image_data = 7;
-    Address address = 8;
-}
-message UserResponse {
-    UserStruct user = 1;
+    Address address = 6;
+    ProfileImage image = 7;
+    string token = 8;
 }
 
-message RemoveUserStruct {
+message ProfileImage {
+    string image_url = 1;
+    bytes image_data = 2;
+}
+message GetUserRequest {
+    string uuid = 1;
+}
+
+message RemoveUserRequest {
     string uuid = 1;
 }
 
@@ -30,13 +37,40 @@ message Address {
     int32 zip = 5;
 }
 
-message Comments {
-    
+// Authentication section
+
+message RegisterRequest {
+    string username = 1;
+    bytes password = 2;
+    string first_name = 3;
+    string last_name = 4;
+    Address address = 5;
+    ProfileImage image = 6;
 }
 
-service User {
-    rpc ListAllUsers (Empty) returns (stream UserResponse) {}
-    rpc NewUser (UserStruct) returns (Empty) {}
-    rpc RemoveUser (RemoveUserStruct) returns (Empty) {}
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message VerifyRequest {
+    string token = 1;
+}
+
+message VerifyResponse {
+    string uuid = 1;
+    string username = 2;
+    string first_name = 3;
+    string last_name = 4;
+    Address address = 5;
+    ProfileImage image = 6;
+}
+
+
+service UserServices {
+    rpc register (RegisterRequest) returns (UserResponse);
+    rpc login (LoginRequest) returns (UserResponse);
+    rpc verify (VerifyRequest) returns (VerifyResponse);
+    rpc getUser (GetUserRequest) returns (VerifyResponse);
 }
 
